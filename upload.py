@@ -4,7 +4,7 @@ from qdrant_client.models import PointStruct
 
 from common.types import Document, str_struct
 from common.globals import qdrant_client
-from common.config import COLLECTION_NAME_EXP, COLLECTION_NAME_PROD, MAX_CHUNK_LENGTH, EMBED_BATCH_SIZE
+from common.config import MAX_CHUNK_LENGTH, EMBED_BATCH_SIZE, POSTECH_COLLECTION_PROD, POSTECH_COLLECTION_EXP
 from src.llm.gpt.inference import async_run_gpt
 from src.rag.parse import parse_word, parse_pdf
 from src.rag.chunk import chunk_word, chunk_pdf
@@ -17,9 +17,9 @@ import os, asyncio
 def upload(db_path: str, recreate: bool = False, dev: bool = True):
     # dev / prod
     if dev:
-        COLLECTION_NAME = COLLECTION_NAME_EXP
+        COLLECTION_NAME = POSTECH_COLLECTION_EXP
     else:
-        COLLECTION_NAME = COLLECTION_NAME_PROD
+        COLLECTION_NAME = POSTECH_COLLECTION_PROD
 
     # 1. recreate_collection
     if recreate:

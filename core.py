@@ -12,7 +12,8 @@ def get_response(
     top_k: int = 20,
     refinement_model: str = "gpt-4o-mini",
     reranking_model: str = "gpt-4o-2024-08-06",
-    branch: str = "postech"
+    branch: str = "postech",
+    collection_name: str = "posplexity-postech-exp"
 ) -> str:
     """
     RAG + LLM 전체 로직을 처리해 최종 답변 문자열을 반환
@@ -45,7 +46,7 @@ def get_response(
 
         # 2. RAG 검색
         with st.spinner("문서를 조회 중입니다..."):
-            found_chunks = search(refined_prompt, top_k=top_k, dev=False)
+            found_chunks = search(collection_name, refined_prompt, top_k=top_k, dev=False)
 
         # 3. Re-ranking
         chunk_dict = {

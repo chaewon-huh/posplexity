@@ -2,6 +2,7 @@ import sys, os, asyncio, json
 sys.path.append(os.path.abspath("")) 
 
 import streamlit as st
+from common.config import POSTECH_COLLECTION_PROD, POSTECH_COLLECTION_EXP
 from core import get_response
 
 try:
@@ -13,10 +14,9 @@ except RuntimeError:
 name_source_mapping = json.load(open("data/mapping.json", "r"))
 
 def setup_sidebar():
-    """
-    사이드바 UI를 구성하고, 전역 변수에 모델 선택/옵션을 세팅한다.
-    """
-    # posplexity 로고(상단)
+    """사이드바 UI 구성"""
+
+    # posplexity 로고
     st.sidebar.image(
         "data/assets/posplexity_light.png",
         use_container_width=True
@@ -26,7 +26,7 @@ def setup_sidebar():
     \n새내기 여러분의 궁금증을 해소하기 위해 관련 자료를 기반으로 답변을 제공하는 챗봇입니다.
     """)
 
-    # 예시 질문 섹션
+    # 예시 질문 
     with st.sidebar.expander("ℹ️ 예시 질문", expanded=True):
         example_questions = [
             "밥약이 무슨 뜻인가요?",
@@ -60,20 +60,13 @@ def setup_sidebar():
             [**정찬희**](https://www.linkedin.com/in/%EC%B0%AC%ED%9D%AC-%EC%A0%95-b6506b328/)(포스텍 24)
         """)
 
-    with st.sidebar.expander("💻 코드", expanded=False):
-        st.markdown("""
-            전체 코드는 오픈소스로 공개되어 있습니다.  
-            [**GitHub**](https://github.com/chaewon-huh/posplexity)
-        """)
-
 
 def setup_page():
-    """
-    메인 페이지(본문) 설정을 담당. 타이틀, 부가 문구 등을 표시.
-    """
+    """메인 페이지(본문) 설정을 담당. 타이틀, 부가 문구 등을 표시."""
 
+    # Postech logo
     st.image(
-        "data/assets/postech/postech_logo.svg",
+        "data/assets/kaist/kaist_logo.svg",
         use_container_width=True
     )
     st.caption("powered by P13")
@@ -85,6 +78,7 @@ st.set_page_config(page_title="Posplexity", layout="wide")
 setup_sidebar()
 setup_page()
 
+# Default messages
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {
@@ -123,7 +117,9 @@ if prompt:
             final_response = get_response(
                 prompt=prompt,
                 messages=st.session_state.messages,
-                name_source_mapping=name_source_mapping
+                name_source_mapping=name_source_mapping,
+                branch="postech",
+                collection_name=POSTECH_COLLECTION_PROD
             )
             # 최종 응답을 세션 메시지에 저장
             st.session_state.messages.append({

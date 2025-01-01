@@ -2,6 +2,7 @@ import sys, os, asyncio, json
 sys.path.append(os.path.abspath("")) 
 
 import streamlit as st
+from common.config import POSTECH_COLLECTION_PROD, POSTECH_COLLECTION_EXP
 from core import get_response
 
 try:
@@ -15,7 +16,7 @@ name_source_mapping = json.load(open("data/mapping.json", "r"))
 def setup_sidebar():
     """사이드바 UI 구성"""
 
-    # posplexity 로고
+    # Posplexity logo
     st.sidebar.image(
         "data/assets/posplexity_light.png",
         use_container_width=True
@@ -59,15 +60,17 @@ def setup_sidebar():
             [**정찬희**](https://www.linkedin.com/in/%EC%B0%AC%ED%9D%AC-%EC%A0%95-b6506b328/)(포스텍 24)
         """)
 
+    # Postech logo
+    # st.sidebar.image(
+    #     "data/assets/postech/postech_logo.svg",
+    #     width=150
+    # )
+
 
 def setup_page():
     """메인 페이지(본문) 설정을 담당. 타이틀, 부가 문구 등을 표시."""
 
-    # Postech logo
-    st.image(
-        "data/assets/postech/postech_logo.svg",
-        use_container_width=True
-    )
+    st.title("포스텍 2025 입학을 축하합니다!")
     st.caption("powered by P13")
 
 
@@ -116,7 +119,9 @@ if prompt:
             final_response = get_response(
                 prompt=prompt,
                 messages=st.session_state.messages,
-                name_source_mapping=name_source_mapping
+                name_source_mapping=name_source_mapping,
+                branch="postech",
+                collection_name=POSTECH_COLLECTION_PROD
             )
             # 최종 응답을 세션 메시지에 저장
             st.session_state.messages.append({
