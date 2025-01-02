@@ -1,2 +1,2 @@
-# Pipeline
-![Pipeline](data/assets/pipeline.png)
+# Deprecated
+#### [Repo Link](https://github.com/posplexity/posplexity)
